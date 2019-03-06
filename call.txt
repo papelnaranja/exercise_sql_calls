@@ -33,4 +33,5 @@ id SERIAL PRIMARY KEY,
 user_id INTEGER REFERENCES users(id),
 call_id INTEGER REFERENCES calls(id),
 motive VARCHAR(250));
-CREATE TABLE
+
+Link a imagen: https://github.com/papelnaranja/exercise_sql_calls/blob/master/call-relation.png
