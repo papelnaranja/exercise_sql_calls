@@ -1,0 +1,36 @@
+psql
+psql (11.1, server 11.2)
+Type "help" for help.
+
+CREATE DATABASE call_list;
+\c call_list
+psql (11.1, server 11.2)
+You are now connected to database "call_list" as user "Zuu".
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY, 
+    first_name VARCHAR(30), 
+    email VARCHAR(60)
+    );
+INSERT INTO users (first_name,email) VALUES ('carlos','carlos@gmail.com'), ('Laura', 'laura@hotmail.com');
+CREATE TABLE calls (
+    id SERIAL PRIMARY KEY,
+    phone VARCHAR(10),
+    date DATE,
+    user_id INTEGER REFERENCES users(id)
+    );
+ALTER TABLE users ADD COLUMN last_name VARCHAR(50);
+UPDATE users SET last_name = 'Perez' WHERE first_name = 'carlos';
+UPDATE users SET last_name = 'Gomez' WHERE first_name = 'Laura';
+ALTER TABLE calls ALTER COLUMN phone TYPE varchar(50);
+INSERT INTO calls (user_id,phone,date) VALUES (1, '600 800 9000','2019-
+02-28'),(1, '9 9345 6789', '2019-03-01'),(1, '2 4324 8765', '2019-03-01'), (1, '600 800 6000','2019-03-04'),(1, '9 9345 6777', '2019-03-03'),(1, '2 4324 8747', '2019-03-02');
+INSERT INTO calls (user_id,phone,date) VALUES (2, '600 800 5000','2018-12-04'),(2, '9 9564 3477', '2018-12-01'),(2, '2 2345 8747', '2018-11-30'), (2, '600 800 4000','2018-12-27'),(2, '9 9564 3567', '2018-12-25'),(2, '2 2345 4823', '2018-12-29');
+INSERT INTO users (first_name, last_name, email) VALUES ('Vane','Frenkel','vane@gmail.com');
+SELECT users.first_name, COUNT(calls.user_id) AS number_Calls FROM calls INNER JOIN users ON calls.user_id = users.id GROUP BY first_name;
+SELECT users.first_name,calls.phone, calls.date FROM users INNER JOIN calls ON users.id = calls.user_id WHERE users.first_name = 'carlos' ORDER BY date;
+CREATE TABLE delete_motives (
+id SERIAL PRIMARY KEY,
+user_id INTEGER REFERENCES users(id),
+call_id INTEGER REFERENCES calls(id),
+motive VARCHAR(250));
+CREATE TABLE
